@@ -1,0 +1,48 @@
+﻿@model CrudWithoutEF.Models.BookViewModel
+@{
+    ViewData["Title"] = Model.BookID==0 ? "Create Book" : "Update Book";
+}
+<!-- This view corresponds with the AddOrEdit Controller methods under BookController.
+     Therefore it contains functionality to get the Title, Author, and Price of a Book, 
+     along with a Submit button.
+
+    The BookViewModel is what gets passed down into this page in order to populate it
+    when an Edit was selected.  
+-->
+<h1>Add or Edit a Book</h1>
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddOrEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BookID" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
