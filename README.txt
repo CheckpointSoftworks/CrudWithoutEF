@@ -212,5 +212,19 @@ GO
 ALTER DATABASE [CrudWithoutEntityFramework] SET  READ_WRITE 
 GO
 
+-- Step 2: Update your connection string in AppSettings.Json ------------------------------------------
+-- Query to find your connection string: Place under "DevConnection" under connection strings in appsettings.json
+-- Example:  "Server=DESKTOP-R1GQ1K0\\SQLEXPRESS;Database=CrudWithoutEntityFramework;trusted_connection=true;MultipleActiveResultSets=True;"
 
- 
+select
+    'data source=' + @@servername +
+    ';initial catalog=' + db_name() +
+    case type_desc
+        when 'WINDOWS_LOGIN' 
+            then ';trusted_connection=true'
+        else
+            ';user id=' + suser_name() + ';password=<<YourPassword>>'
+    end
+    as ConnectionString
+from sys.server_principals
+where name = suser_name()
